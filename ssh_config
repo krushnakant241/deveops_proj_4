@@ -1,0 +1,13 @@
+Port 22
+Protocol 2
+Hostkey /etc/ssh/ssh_host_rsa_key
+Hostkey /etc/ssh/ssh_host_dsa_key
+Hostkey /etc/ssh/ssh_host_ecda_key
+Hostkey /etc/ssh/ssh_host_ed25519_key
+
+LoginGraceTime 120
+PermitRootLogin yes
+StrictModes yes
+RSAAuthentication yes
+PubkeyAuthentication yes
+usePAM yes

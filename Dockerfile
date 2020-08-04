@@ -7,8 +7,9 @@ RUN kubectl version --client
 RUN mkdir /root/.kube
 RUN mkdir /root/.kube/certificate
 
-COPY  /root/.kube/config /root/.kube/
-COPY /root/.kube/certificate/* /root/.kube/certificate/
+COPY config /root/.kube/
+COPY *.crt root/.kube/certificate/
+COPY client.key root/.kube/certificate/
 
 RUN yum install java -y
 RUN yum install openssh-server -y
