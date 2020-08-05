@@ -19,5 +19,5 @@ RUN yum install git -y
 RUN mkdir /root/jenkins-dir
 RUN ssh-keygen -A
 COPY ssh_config /etc/ssh/
-RUN echo root:mypassword | chpasswd
+RUN echo root:redhat | chpasswd
 CMD ["/usr/sbin/sshd" , "-D"] && / bin/bash
