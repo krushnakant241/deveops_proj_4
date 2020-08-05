@@ -15,4 +15,4 @@ spec:
     spec:
       containers:
       - name: my-con
-        image: krushnakant241/httpos:latest
+        image: krushnakant241/mywebos:v1
