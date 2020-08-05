@@ -1,4 +1,5 @@
 FROM centos:latest
+RUN setenforce 0
 RUN yum install httpd -y 
 WORKDIR /root/code
 COPY  *.html  /var/www/html
