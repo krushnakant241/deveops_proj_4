@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: mydeploy
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       env: production
@@ -15,4 +15,4 @@ spec:
     spec:
       containers:
       - name: my-con
-        image: krushnakant241/mywebos:v1
+        image: krushnakant241/webos:v1
