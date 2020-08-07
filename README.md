@@ -1,4 +1,4 @@
-# DevOps_Task_4 (Jenkins + Jenkins Node cluster + Kubernetes + Dockerfile + Git)
+# DevOps_Task_4 (Jenkins + Jenkins dynamic slave + Kubernetes + Dockerfile + Git)
 
 ## Project purpose:
 Create A dynamic Jenkins cluster and perform task-3 using the dynamic Jenkins cluster. Steps to proceed as:
@@ -19,9 +19,9 @@ Create A dynamic Jenkins cluster and perform task-3 using the dynamic Jenkins cl
 
 ## Let's see step by step how to achieve this:
 
-#### Step - 1 -I have created two branch in Github 1) master 2) secret. Here, secret branch contains Dockerfile to Build Image of kubectl command and certificates, config file, and ssh_config to run on top of kubernetes, please find the below commands and refer these snaps - (jenkins image creation).
+#### Step - 1 -I have created two branch in Github 1) master 2) secret. Here, secret branch contains Dockerfile to Build Image of kubectl command enabled image, certificates, config file, and ssh_config to run on top of kubernetes, please find the below Dockerfile and commands. Refer these snaps for understanding- (Secret branch files, kubectl image built, change image tag and pushed to Docker Hub).
 
-Dockerfile of kubectlos
+Dockerfile of kubectlos image
 ```
 FROM centos:latest
 RUN yum install -y curl
@@ -48,13 +48,13 @@ RUN echo root:redhat | chpasswd
 CMD ["/usr/sbin/sshd" , "-D"] && / bin/bash
 ```
 
-Built image using below commands and above Dockerfile and also push it to docker hub for further use.
+Built image using below commands and above Dockerfile and also push it to docker hub for further use. refer this snap of Docker Hub(kubectlos image on docker hub).
 ```
 docker build -t krushnakant241/kubectlos:latest . (here"." means we are running this command from present directory of Dockerfile)
 docker push krushnakant241/kubectlos:latest
 ```
 
-#### Step - 2 -Now we will use jenkins dynamic slave to perform our task. To enable dynamic slave automatically, we will configure clouds as per attached snapshots 1 and 2 after installing Docker plugin. refer these snaps for better understading - (Jenkins docker run, kubeconfig file and certificates of Minikube server API, minikube start and IP).
+#### Step - 2 -Now we will use jenkins dynamic slave to perform our task. To enable dynamic slave automatically, we will configure clouds as per attached snapshots 1 and 2 after installing Docker plugin. refer these snaps for better understading - (configuration of clouds - 1, configuration of clouds - 2).
 
 (Note: First of all we have to do some setup like add -H tcp://0.0.0.0:4243 in /usr/lib/systemd/system/docker.service file so that docker service of this VM can be used by another machine. this process called as socket binding)
 
@@ -62,7 +62,7 @@ Here we have used labels "dynamic-node" to this Slave for mentioning in second J
 
 #### Step - 3 - Now we will create 2 jobs as per below to perform our task.
 
-#### Step - 4 - Job-1 -Pull the code from GitHub when developers pushed to Github using poll SCM, please find the below code, refer these snaps - (Job-1-snap-1, Job-1-snap-2, Job-1-snap-3).
+#### Step - 4 - Job-1 -Pull the code from GitHub when developers pushed to Github using poll SCM, please find the below code, refer these snaps - (Job-1-snap-1, Job-1-snap-2).
 
 -pull the code from GitHub and run below command to copy those files from jenkins workspace to that folder
 ```
@@ -77,14 +77,15 @@ sudo rm -rf /code/*
 sudo cp -rvf * /code/
 ```
 
-i) Master branch contains Dockerfile and application codes, these codes will copy in image at the time of image building using Docker publish plugin of jenkins, please refer this snap().
+i) Master branch contains Dockerfile and application codes, these codes will copy in image at the time of image building using Docker publish plugin of jenkins, please refer this snap(Job-1-snap-3).
 
-ii) Docker publish plugin also push this image to the Docker hub. we will use this image when we launch pods on top of kubernetes please refer these snaps ().  
+ii) Docker publish plugin also push this image to the Docker hub. we will use this image when we launch pods on top of kubernetes please refer these snaps(Job-1-snap-3).  
 
-#### Step - 5 - Job-2 -this job run if job1 build successfully -this job run dynamic slave automatically as it restricted to perform on that slave, refer these snaps - (Job-2-snap-1, Job-2-snap-2, PHP code running, HTML code running).
+#### Step - 5 - Job-2 -this job run if job1 build successfully -this job run dynamic slave automatically as it restricted to perform on that slave, refer these snaps - (Job-2-snap-1, Job-2-snap-2, Job-2-snap-3).
 
-i) Below code is used to perform task on top of kubernetes and "kubectl get all" command shows us exposed port.
-ii) if deployment is already running, it will rollout the new image in container. 
+i) Below code is used to perform task on top of kubernetes and "kubectl get all" command shows us exposed port.we can see output using this ip http://192.168.99.100:30024/index.html. refer this snap (first output)
+
+ii) if deployment is already running, it will rollout the new image in container. (second output)
 ```
 sudo rm -rvf /root/mydeploy.yml
 sudo cp -rvf mydeploy.yml /root/
