@@ -81,9 +81,9 @@ i) Master branch contains Dockerfile and application codes, these codes will cop
 
 ii) Docker publish plugin also push this image to the Docker hub. we will use this image when we launch pods on top of kubernetes please refer these snaps(Job-1-snap-3).  
 
-#### Step - 5 - Job-2 -this job run if job1 build successfully -this job run dynamic slave automatically as it restricted to perform on that slave, refer these snaps - (Job-2-snap-1, Job-2-snap-2, Job-2-snap-3).
+#### Step - 5 - Job-2 -this job run if job1 build successfully -this job run dynamic slave automatically as it restricted to perform on that slave, refer these snaps - (Job-2-snap-1, Job-2-snap-2, Job-2-snap-3, launching of dynamic slave, logs of dynamic slave).
 
-i) Below code is used to perform task on top of kubernetes and "kubectl get all" command shows us exposed port.we can see output using this ip http://192.168.99.100:30024/index.html. refer this snap (first output)
+i) Below code is used to perform task on top of kubernetes and "kubectl get all" command shows us exposed port.we can see output using this ip http://192.168.99.100:30024/index.html. refer this snap (first output, exposed port)
 
 ii) if deployment is already running, it will rollout the new image in container. (second output)
 ```
